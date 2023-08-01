@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.core import mail
 from eventex.subscriptions.forms import SubscriptionForm
+from eventex.subscriptions.views import default_gmail 
 # Create your tests here.
 
 class SubscribeTest(TestCase):
@@ -38,7 +39,8 @@ class SubscribePostTest(TestCase):
         data = dict(name='Henrique Bastos',cpf='12345678901', email='henrique@bastos.net', phone='21-99618-6180')
         self.response = self.client.post('/inscricao/', data)
         self.email = mail.outbox[0]
-    
+        self.default_gmail = default_gmail
+
     def test_post(self):
         self.assertEqual(302, self.response.status_code)
     
@@ -49,10 +51,10 @@ class SubscribePostTest(TestCase):
         self.assertEqual('confirmação de inscrição', self.email.subject)
     
     def test_subscription_email_from(self):
-        self.assertEqual('contato@eventex.com.br', self.email.from_email)
+        self.assertEqual(self.default_gmail, self.email.from_email)
     
     def test_subscription_email_to(self):
-        self.assertEqual(['contato@eventex.com.br', 'henrique@bastos.net'], self.email.to)
+        self.assertEqual([self.default_gmail, 'henrique@bastos.net'], self.email.to)
     
     def test_subscription_email_body(self):
         self.assertIn('Henrique Bastos', self.email.body)
