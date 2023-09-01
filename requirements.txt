@@ -9,4 +9,4 @@ typing_extensions==4.7.1
 tzdata==2023.3
 gunicorn==21.2.0
 psycopg2==2.9.5
-django-extesions==3.2.1
+django-extensions==3.2.1
