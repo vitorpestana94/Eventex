@@ -4,6 +4,7 @@ from django.template.loader import render_to_string
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from eventex.subscriptions.forms import SubscriptionForm
+from eventex.subscriptions.models import Subscription
 from django.conf import settings
 # Create your views here.
 
@@ -30,7 +31,7 @@ def _success(request, form):
                form.cleaned_data['email'], 
                'subscriptions/subscription_email.txt', 
                form.cleaned_data)
-    
+    Subscription.objects.create(**form.cleaned_data)
     messages.success(request, 'Inscrição Realizada com Sucesso!')
     
     return HttpResponseRedirect('/inscricao/')
