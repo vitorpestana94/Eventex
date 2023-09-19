@@ -1,5 +1,5 @@
 import eventex.core.views
-from eventex.subscriptions.views import subscribe
+from eventex.subscriptions.views import subscribe, detail
 """
 URL configuration for eventex project.
 
@@ -22,5 +22,6 @@ from django.urls import path
 urlpatterns = [
     path('', eventex.core.views.home),
     path('inscricao/', subscribe),
+    path('inscricao/<int:pk>/', detail),
     path('admin/', admin.site.urls),
 ]
